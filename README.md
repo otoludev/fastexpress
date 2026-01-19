@@ -1,10 +1,11 @@
 # FastExpress
 
-A simple Express.js application for testing MongoDB connectivity.
+A simple Express.js application for testing MongoDB connectivity and Docker containers.
 
 ## Description
 
-This project is designed to test MongoDB with a collection named `users` that contains documents with only one property: `name`.
+This project is primarily designed to test Docker containers by running a minimal Express.js API connected to MongoDB (With Docker).  
+MongoDB uses a collection named `users` that contains documents with only one property: `name`.
 
 ## Setup
 
