@@ -11,6 +11,8 @@ services:
     - MONGODB_DATABASE=tower7
     depends_on:
       - mongodb
+    volumes:
+      - uploads_data:/home/app/uploads # El volumen se monta sobre la carpeta que ya tiene permisos de 'node'
   mongodb:
     image: mongo:noble
     environment:
@@ -31,4 +33,5 @@ services:
 
 # Aquí se declaran los volúmenes globales
 volumes:
-  db_data:
+  db_data: # Para MongoDB
+  uploads_data: # Para tus archivos
