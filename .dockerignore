@@ -1,0 +1,14 @@
+# Dependencias locales (¡Super importante!)
+node_modules
+npm-debug.log
+
+# Git
+.git
+.gitignore
+
+# Variables de entorno (Por seguridad)
+.env
+
+# Archivos de sistema y basura
+.DS_Store
+Thumbs.db

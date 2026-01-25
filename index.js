@@ -1,5 +1,9 @@
 // Load environment variables (Node.js 21+)
-if (typeof process.loadEnvFile === 'function') {
+// Only load .env file when NOT running in Docker
+const fs = require('fs');
+const path = require('path');
+const isDocker = fs.existsSync('/.dockerenv') || process.env.DOCKER === 'true';
+if (!isDocker && typeof process.loadEnvFile === 'function') {
   process.loadEnvFile('.env');
 }
 
@@ -19,17 +23,20 @@ mongoose.connect(MONGODB_URI)
     console.error('MongoDB connection error:', err);
   });
 
-// User schema
-const userSchema = new mongoose.Schema({}, { strict: false });
-const User = mongoose.model('User', userSchema, 'users');
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get('/', async (req, res) => {
-  try {
-    const users = await User.find({});
-    res.json(users);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+// Serve static files from views directory
+app.use(express.static(path.join(__dirname, 'views')));
+
+// Routes
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
+// Serve the HTML view
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'index.html'));
 });
 
 app.listen(PORT, () => {
