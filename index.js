@@ -29,14 +29,25 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files from views directory
 app.use(express.static(path.join(__dirname, 'views')));
+// Ensure uploads directory exists and serve uploaded images
+const uploadsPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsPath)) {
+  fs.mkdirSync(uploadsPath, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsPath));
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
+const uploadRoutes = require('./routes/uploadRoutes');
 app.use('/api/users', userRoutes);
+app.use('/api/images', uploadRoutes);
 
-// Serve the HTML view
+// Serve the HTML views
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'views', 'index.html'));
+});
+app.get('/gallery', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views', 'gallery.html'));
 });
 
 app.listen(PORT, () => {

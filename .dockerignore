@@ -12,3 +12,4 @@ npm-debug.log
 # Archivos de sistema y basura
 .DS_Store
 Thumbs.db
+uploads/
